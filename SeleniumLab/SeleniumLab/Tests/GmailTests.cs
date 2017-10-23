@@ -9,7 +9,8 @@ namespace SeleniumLab.Tests
         [Test]
         public void TestMethod1()
         {
-            new GmailHomePage();
+            var gmail = new GmailHomePage();
+            gmail.Login();
         }
     }
 }
