@@ -1,45 +1,92 @@
-﻿using System;
-using Autofac;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
-using SeleniumLab.Infrastructure;
+using System;
+using System.Configuration;
 
 namespace SeleniumLab.PageObjects
 {
     public class GmailHomePage
     {
-        private readonly IWebDriver _driver;
-        private readonly WebDriverWait _wait;
+        protected readonly IWebDriver _driver;
+        protected readonly WebDriverWait _wait;
 
-        public GmailHomePage()
-        {           
-            _driver = AutofacConfiguration.GetContainer().Resolve<IWebDriver>();   
-            _wait = new WebDriverWait(_driver,TimeSpan.FromSeconds(30));
+        public GmailHomePage(IWebDriver driver)
+        {
+            _driver = driver;
+            _wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(int.Parse(ConfigurationManager.AppSettings["Timeout"])));
             PageFactory.InitElements(_driver, this);
-            _driver.Navigate().GoToUrl("http://mail.google.com");            
+            _driver.Navigate().GoToUrl(ConfigurationManager.AppSettings["Url"]);
         }
 
         [FindsBy(How = How.Id, Using = "identifierId")]
-        private IWebElement _loginField;
+        private readonly IWebElement _loginField;
 
         [FindsBy(How = How.Id, Using = "identifierNext")]
-        private IWebElement _loginNextButton;
+        private readonly IWebElement _loginNextButton;
 
-        [FindsBy(How = How.ClassName, Using = "whsOnd zHQkBf")]
-        private IWebElement _passwordField;
+        [FindsBy(How = How.Name, Using = "password")]        
+        private readonly IWebElement _passwordField;
 
         [FindsBy(How = How.Id, Using = "passwordNext")]
-        private IWebElement _passwordNextButton;
+        private readonly IWebElement _passwordNextButton;
         
+        [FindsBy(How = How.CssSelector, Using = "[gh='cm']")]
+        private readonly IWebElement _composeButton;
 
+        [FindsBy(How = How.Id, Using = ":db")]
+        private readonly IWebElement _toField;
+
+        [FindsBy(How = How.Id, Using = ":cu")]
+        private readonly IWebElement _subjectField;
+
+        [FindsBy(How = How.Id, Using = ":dv")]
+        private readonly IWebElement _messageField;
+
+        [FindsBy(How = How.Id, Using = ":ck")]
+        private readonly IWebElement _sendButton;
+
+        [FindsBy(How = How.CssSelector, Using = "[title='Sent Mail']")]
+        private readonly IWebElement _goToSentMailButton;
+               
         public void Login()
         {
-            _loginField.SendKeys("abachkayspare@gmail.com");            
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_loginField));
+            _loginField.SendKeys(ConfigurationManager.AppSettings["Email"]);
+
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_loginNextButton));
             _loginNextButton.Click();
-            _wait.Until(ExpectedConditions.ElementToBeClickable(_passwordField));
-            _passwordField.SendKeys("aba142");
+
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_passwordField));            
+            _passwordField.SendKeys(ConfigurationManager.AppSettings["Password"]);
+
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_passwordNextButton));
             _passwordNextButton.Click();
+        }
+
+        public void SendMessage(string to, string subject, string message)
+        {
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_composeButton));
+            _composeButton.Click();
+
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_toField));
+            _toField.SendKeys(to);
+
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_subjectField));
+            _subjectField.SendKeys(subject);
+
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_messageField));
+            _messageField.SendKeys(message);
+
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_sendButton));
+            _sendButton.Click();
+        }
+
+        public GmailSentMailPage GoToSentMailPage()
+        {
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_goToSentMailButton));
+            _goToSentMailButton.Click();
+            return new GmailSentMailPage(_driver);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿using  Autofac;
+﻿using Autofac;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 
@@ -13,11 +13,10 @@ namespace SeleniumLab.Infrastructure
         }
 
         private AutofacConfiguration()
-        {
-            _container = this.Configure();
+        {            
         }
 
-        public IContainer Configure()
+        private IContainer Configure()
         {
             var builder = new ContainerBuilder();
 

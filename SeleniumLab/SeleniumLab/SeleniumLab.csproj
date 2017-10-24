@@ -46,6 +46,7 @@
       <HintPath>..\packages\NUnit.3.8.1\lib\net45\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -64,10 +65,13 @@
   <ItemGroup>
     <Compile Include="Infrastructure\AutofacConfiguration.cs" />
     <Compile Include="PageObjects\GmailHomePage.cs" />
+    <Compile Include="PageObjects\GmailMailPage.cs" />
+    <Compile Include="PageObjects\GmailSentMailPage.cs" />
     <Compile Include="Tests\GmailTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
