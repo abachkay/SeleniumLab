@@ -2,7 +2,9 @@
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Linq;
 
 namespace SeleniumLab.PageObjects
 {
@@ -34,16 +36,16 @@ namespace SeleniumLab.PageObjects
         [FindsBy(How = How.CssSelector, Using = "[gh='cm']")]
         private readonly IWebElement _composeButton;
 
-        [FindsBy(How = How.Id, Using = ":db")]
+        [FindsBy(How = How.Name, Using = "to")]
         private readonly IWebElement _toField;
 
-        [FindsBy(How = How.Id, Using = ":cu")]
+        [FindsBy(How = How.Name, Using = "subjectbox")]
         private readonly IWebElement _subjectField;
 
-        [FindsBy(How = How.Id, Using = ":dv")]
+        [FindsBy(How = How.CssSelector, Using = "div[class='Am Al editable LW-avf']:first-of-type")]
         private readonly IWebElement _messageField;
-
-        [FindsBy(How = How.Id, Using = ":ck")]
+       
+        [FindsBy(How = How.CssSelector, Using = "[class='J-J5-Ji btA']:first-child")]
         private readonly IWebElement _sendButton;
 
         [FindsBy(How = How.CssSelector, Using = "[title='Sent Mail']")]
@@ -74,7 +76,7 @@ namespace SeleniumLab.PageObjects
 
             _wait.Until(ExpectedConditions.ElementToBeClickable(_subjectField));
             _subjectField.SendKeys(subject);
-
+            
             _wait.Until(ExpectedConditions.ElementToBeClickable(_messageField));
             _messageField.SendKeys(message);
 

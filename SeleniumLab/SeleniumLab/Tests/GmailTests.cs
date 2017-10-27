@@ -1,5 +1,4 @@
-﻿using System.Runtime.InteropServices;
-using Autofac;
+﻿using Autofac;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using SeleniumLab.Infrastructure;
@@ -18,10 +17,11 @@ namespace SeleniumLab.Tests
         {
             var gmailHomePage = new GmailHomePage(_driver);
             gmailHomePage.Login();
-            //gmail.SendMessage("abachkayspare@gmail.com", "Test", "Test message");            
+            gmailHomePage.SendMessage("abachkayspare@gmail.com", "Test", "Test message");
             var gmailSentMailPage = gmailHomePage.GoToSentMailPage();
             var gmailMailPage = gmailSentMailPage.OpenMail();
-            gmailMailPage.DoesMailMatch("me", "Test", "Test message");
-        }        
+            Assert.IsTrue(gmailMailPage.DoesFirstMailMatch("Test", "Test message"));
+            gmailMailPage.DeleteFirstMail();
+        }
     }
 }
