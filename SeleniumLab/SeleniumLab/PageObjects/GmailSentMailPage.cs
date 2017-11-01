@@ -23,8 +23,12 @@ namespace SeleniumLab.PageObjects
         [FindsBy(How = How.CssSelector, Using = "[gh='tl'] div div table tbody :first-child :nth-child(4)")]
         private readonly IWebElement _firstRow;
 
+        [FindsBy(How = How.CssSelector, Using = "[class='aim ain'] div div div span a[title='Sent Mail']")]
+        private readonly IWebElement _sentMailTabSelected;
+
         public GmailMailPage OpenMail(int index = 0)
         {
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_sentMailTabSelected));
             _wait.Until(ExpectedConditions.ElementToBeClickable(_firstRow));
             _firstRow.Click();
             return new GmailMailPage(_driver);

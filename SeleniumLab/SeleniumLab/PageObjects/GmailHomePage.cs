@@ -50,7 +50,10 @@ namespace SeleniumLab.PageObjects
 
         [FindsBy(How = How.CssSelector, Using = "[title='Sent Mail']")]
         private readonly IWebElement _goToSentMailButton;
-               
+
+        [FindsBy(How = How.CssSelector, Using = "[name='ok']")]
+        private readonly IWebElement _okCloseErrorButton;
+
         public void Login()
         {
             _wait.Until(ExpectedConditions.ElementToBeClickable(_loginField));
@@ -82,6 +85,12 @@ namespace SeleniumLab.PageObjects
 
             _wait.Until(ExpectedConditions.ElementToBeClickable(_sendButton));
             _sendButton.Click();
+        }
+
+        public void CloseError()
+        {
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_okCloseErrorButton));
+            _okCloseErrorButton.Click();
         }
 
         public GmailSentMailPage GoToSentMailPage()
