@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using OpenQA.Selenium.Chrome;
 
 namespace SeleniumLab.PageObjects
 {
@@ -57,55 +58,59 @@ namespace SeleniumLab.PageObjects
         [FindsBy(How = How.CssSelector, Using = "[title*='Drafts']")]
         private readonly IWebElement _goToDraftButton;
 
+
+        [FindsBy(How = How.CssSelector, Using = "[name='ok']")]
+        private readonly IWebElement _okCloseErrorButton;
+
         public void Login()
         {
-            _wait.Until(ExpectedConditions.ElementToBeClickable(_loginField));
+            //_wait.Until(ExpectedConditions.ElementToBeClickable(_loginField));            
             _loginField.SendKeys(ConfigurationManager.AppSettings["Email"]);
 
-            _wait.Until(ExpectedConditions.ElementToBeClickable(_loginNextButton));
+            //_wait.Until(ExpectedConditions.ElementToBeClickable(_loginNextButton));
             _loginNextButton.Click();
 
-            _wait.Until(ExpectedConditions.ElementToBeClickable(_passwordField));            
+            //_wait.Until(ExpectedConditions.ElementToBeClickable(_passwordField));            
             _passwordField.SendKeys(ConfigurationManager.AppSettings["Password"]);
 
-            _wait.Until(ExpectedConditions.ElementToBeClickable(_passwordNextButton));
+            //_wait.Until(ExpectedConditions.ElementToBeClickable(_passwordNextButton));
             _passwordNextButton.Click();
         }
 
-        public void SendMessage(string to, string subject, string message)
+        public void CreateMessage()
         {
             _wait.Until(ExpectedConditions.ElementToBeClickable(_composeButton));
             _composeButton.Click();
+        }
 
+        public void TypeMessage(string to, string subject, string message)
+        {
             _wait.Until(ExpectedConditions.ElementToBeClickable(_toField));
             _toField.SendKeys(to);
 
             _wait.Until(ExpectedConditions.ElementToBeClickable(_subjectField));
             _subjectField.SendKeys(subject);
-            
-            _wait.Until(ExpectedConditions.ElementToBeClickable(_messageField));
-            _messageField.SendKeys(message);
 
-            _wait.Until(ExpectedConditions.ElementToBeClickable(_sendButton));
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_messageField));
+            _messageField.SendKeys(message);            
+        }
+
+        public void SendMessage()
+        {                        
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_sendButton));            
             _sendButton.Click();
         }
 
-        public void CreateAndCloseMessage(string to, string subject, string message)
-        {
-            _wait.Until(ExpectedConditions.ElementToBeClickable(_composeButton));
-            _composeButton.Click();
-
-            _wait.Until(ExpectedConditions.ElementToBeClickable(_toField));
-            _toField.SendKeys(to);
-
-            _wait.Until(ExpectedConditions.ElementToBeClickable(_subjectField));
-            _subjectField.SendKeys(subject);
-
-            _wait.Until(ExpectedConditions.ElementToBeClickable(_messageField));
-            _messageField.SendKeys(message);
-
+        public void CloseMessage()
+        {           
             _wait.Until(ExpectedConditions.ElementToBeClickable(_closeButton));
             _closeButton.Click();
+        }
+
+        public void CloseError()
+        {
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_okCloseErrorButton));
+            _okCloseErrorButton.Click();
         }
 
         public GmailSentMailPage GoToSentMailPage()

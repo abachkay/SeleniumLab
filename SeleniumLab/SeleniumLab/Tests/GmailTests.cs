@@ -16,8 +16,10 @@ namespace SeleniumLab.Tests
         public void GmailTest1()
         {
             var gmailHomePage = new GmailHomePage(_driver);
-            gmailHomePage.Login();
-            gmailHomePage.SendMessage("abachkayspare@gmail.com", "Test", "Test message");
+            gmailHomePage.Login();        
+            gmailHomePage.CreateMessage();
+            gmailHomePage.TypeMessage("abachkayspare@gmail.com", "Test", "Test message");
+            gmailHomePage.SendMessage();
             var gmailSentMailPage = gmailHomePage.GoToSentMailPage();
             var gmailMailPage = gmailSentMailPage.OpenMail();
             Assert.IsTrue(gmailMailPage.DoesFirstMailMatch("Test", "Test message"));
@@ -25,13 +27,34 @@ namespace SeleniumLab.Tests
         }
 
         [Test]
+        public void TestMethod4()
+        {
+            var gmailHomePage = new GmailHomePage(_driver);
+            gmailHomePage.Login();
+            gmailHomePage.CreateMessage();
+            gmailHomePage.TypeMessage("aba", "Test", "Test message");
+            gmailHomePage.SendMessage();
+            gmailHomePage.CloseError();
+            gmailHomePage.CloseMessage();
+            gmailHomePage.CreateMessage();
+            gmailHomePage.TypeMessage("abachkayspare@gmail.com", "Test", "Test message");
+            gmailHomePage.SendMessage();
+            //var gmailSentMailPage = gmailHomePage.GoToSentMailPage();
+            //var gmailMailPage = gmailSentMailPage.OpenMail();
+            //Assert.IsTrue(gmailMailPage.DoesFirstMailMatch("Test", "Test message"));
+            //gmailMailPage.DeleteFirstMail();
+        }
+
+        [Test]
         public void GmailTest2()
         {
             var gmailHomePage = new GmailHomePage(_driver);
             gmailHomePage.Login();
-            gmailHomePage.CreateAndCloseMessage("abachkayspare@gmail.com", "Test", "Test message");
-            var draftsPage = gmailHomePage.GoToDraftsPage();
-            draftsPage.OpenMail();
+            //gmailHomePage.CreateMessage();
+            //gmailHomePage.TypeMessage("aba", "Test", "Test message");            
+            //gmailHomePage.CloseMessage();
+            //var draftsPage = gmailHomePage.GoToDraftsPage();
+            //draftsPage.OpenMail();
         }
     }
 }
