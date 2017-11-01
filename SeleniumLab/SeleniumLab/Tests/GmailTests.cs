@@ -13,7 +13,7 @@ namespace SeleniumLab.Tests
         private readonly IWebDriver _driver = AutofacConfiguration.GetContainer().Resolve<IWebDriver>();
 
         [Test]
-        public void TestMethod1()
+        public void GmailTest1()
         {
             var gmailHomePage = new GmailHomePage(_driver);
             gmailHomePage.Login();
@@ -22,6 +22,16 @@ namespace SeleniumLab.Tests
             var gmailMailPage = gmailSentMailPage.OpenMail();
             Assert.IsTrue(gmailMailPage.DoesFirstMailMatch("Test", "Test message"));
             gmailMailPage.DeleteFirstMail();
+        }
+
+        [Test]
+        public void GmailTest2()
+        {
+            var gmailHomePage = new GmailHomePage(_driver);
+            gmailHomePage.Login();
+            gmailHomePage.CreateAndCloseMessage("abachkayspare@gmail.com", "Test", "Test message");
+            var draftsPage = gmailHomePage.GoToDraftsPage();
+            draftsPage.OpenMail();
         }
     }
 }

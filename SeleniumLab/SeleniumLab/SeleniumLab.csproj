@@ -66,6 +66,7 @@
     <Compile Include="Infrastructure\AutofacConfiguration.cs" />
     <Compile Include="PageObjects\GmailHomePage.cs" />
     <Compile Include="PageObjects\GmailMailPage.cs" />
+    <Compile Include="PageObjects\GmailDraftsPage.cs" />
     <Compile Include="PageObjects\GmailSentMailPage.cs" />
     <Compile Include="Tests\GmailTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

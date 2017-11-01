@@ -10,8 +10,8 @@ namespace SeleniumLab.PageObjects
 {
     public class GmailHomePage
     {
-        protected readonly IWebDriver _driver;
-        protected readonly WebDriverWait _wait;
+        private readonly IWebDriver _driver;
+        private readonly WebDriverWait _wait;
 
         public GmailHomePage(IWebDriver driver)
         {
@@ -48,9 +48,15 @@ namespace SeleniumLab.PageObjects
         [FindsBy(How = How.CssSelector, Using = "[class='J-J5-Ji btA']:first-child")]
         private readonly IWebElement _sendButton;
 
+        [FindsBy(How = How.CssSelector, Using = "img.Ha")]
+        private readonly IWebElement _closeButton;
+
         [FindsBy(How = How.CssSelector, Using = "[title='Sent Mail']")]
         private readonly IWebElement _goToSentMailButton;
-               
+
+        [FindsBy(How = How.CssSelector, Using = "[title*='Drafts']")]
+        private readonly IWebElement _goToDraftButton;
+
         public void Login()
         {
             _wait.Until(ExpectedConditions.ElementToBeClickable(_loginField));
@@ -84,11 +90,36 @@ namespace SeleniumLab.PageObjects
             _sendButton.Click();
         }
 
+        public void CreateAndCloseMessage(string to, string subject, string message)
+        {
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_composeButton));
+            _composeButton.Click();
+
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_toField));
+            _toField.SendKeys(to);
+
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_subjectField));
+            _subjectField.SendKeys(subject);
+
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_messageField));
+            _messageField.SendKeys(message);
+
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_closeButton));
+            _closeButton.Click();
+        }
+
         public GmailSentMailPage GoToSentMailPage()
         {
             _wait.Until(ExpectedConditions.ElementToBeClickable(_goToSentMailButton));
             _goToSentMailButton.Click();
             return new GmailSentMailPage(_driver);
+        }
+
+        public GmailDraftsPage GoToDraftsPage()
+        {
+            _wait.Until(ExpectedConditions.ElementToBeClickable(_goToDraftButton));
+            _goToDraftButton.Click();
+            return new GmailDraftsPage(_driver);
         }
     }
 }
