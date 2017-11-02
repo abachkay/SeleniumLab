@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Threading;
+using Autofac;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using SeleniumLab.Infrastructure;
@@ -11,6 +12,15 @@ namespace SeleniumLab.Tests
     public class GmailTests
     {
         private readonly IWebDriver _driver = AutofacConfiguration.GetContainer().Resolve<IWebDriver>();
+
+        [SetUp]
+        public void SetUp()
+        {
+            var enterEmailPage = new EnterEmailPage(_driver);
+            enterEmailPage.NavigateHome();
+            var enterPasswordPage = enterEmailPage.Next();
+            enterPasswordPage.Next();
+        }
 
         [Test]
         public void GmailTest1()
@@ -55,6 +65,54 @@ namespace SeleniumLab.Tests
             //gmailHomePage.CloseMessage();
             //var draftsPage = gmailHomePage.GoToDraftsPage();
             //draftsPage.OpenMail();
+        }
+
+        [Test]
+        public void GmailTest11()
+        {            
+            var inboxPage = new InboxPage(_driver);
+            var createMailPage = inboxPage.CreateMessage();
+            createMailPage.TypeMessage("abachkayspare@gmail.com", "Test", "Test message");
+            createMailPage.SendMessage();
+            var sentMailPage = createMailPage.GoToSentMailPage();
+            var viewMailPage = sentMailPage.OpenMail();
+            Assert.IsTrue(viewMailPage.VerifyMail("Test", "Test message"));
+            viewMailPage.DeleteMail();
+        }
+
+        [Test]
+        public void GmailTest12()
+        {
+            var inboxPage = new InboxPage(_driver);
+            var createMailPage = inboxPage.CreateMessage();
+            createMailPage.TypeMessage("abachkayspare@gmail.com", "Test", "Test message");
+            createMailPage.CloseMessage();
+
+            createMailPage.CreateMessage();
+            var newcreatemailpage = new CreateMailPage(_driver);
+            createMailPage.TypeMessage("abachkayspare@gmail.com", "Test", "Test message");
+            createMailPage.CloseMessage();
+
+
+            //var draftsPage = createMailPage.GoToDraftsPage();
+            //var newCreateMailPage = draftsPage.OpenMail();
+
+            //newCreateMailPage.SendMessage();           
+        }
+
+        [Test]
+        public void GmailTest14()
+        {
+            var inboxPage = new InboxPage(_driver);
+            var createMailPage = inboxPage.CreateMessage();
+            createMailPage.TypeMessage("aba", "Test", "Test message");
+            createMailPage.SendMessage();
+            createMailPage.CloseError();
+            createMailPage.FixMessage("abachkayspare@gmail.com");
+            createMailPage.SendMessage();
+            var sentMailPage = createMailPage.GoToSentMailPage();
+            var viewMailPage = sentMailPage.OpenMail();
+            Assert.IsTrue(viewMailPage.VerifyMail("Test", "Test message"));
         }
     }
 }
