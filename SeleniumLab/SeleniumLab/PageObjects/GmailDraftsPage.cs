@@ -26,7 +26,7 @@ namespace SeleniumLab.PageObjects
         public void OpenMail(int index = 0)
         {
             _wait.Until(ExpectedConditions.ElementToBeSelected(_firstRow));
-            //_firstRow.Click();            
+            _firstRow.Click();            
         }
     }
 }
