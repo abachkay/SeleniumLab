@@ -1,30 +1,32 @@
-﻿using System.Configuration;
-using OpenQA.Selenium;
-using OpenQA.Selenium.Support.PageObjects;
-using OpenQA.Selenium.Support.UI;
+﻿using OpenQA.Selenium;
+using SeleniumLab.Utilities;
+using System.Configuration;
 
 namespace SeleniumLab.PageObjects
 {
     public class EnterEmailPage : PageObject
     {
+        private readonly By _loginField = By.CssSelector("#identifierId");
+
+        private readonly By _loginNextButton = By.CssSelector("#identifierNext");
+
         public EnterEmailPage(IWebDriver driver) : base(driver)
         {            
         }
-
-        [FindsBy(How = How.Id, Using = "identifierId")]
-        private readonly IWebElement _loginField;
-
-        [FindsBy(How = How.Id, Using = "identifierNext")]
-        private readonly IWebElement _loginNextButton;
-   
-        public EnterPasswordPage Next()
-        {            
-            _loginField.SendKeys(ConfigurationManager.AppSettings["Email"]);
-
-            Wait.Until(ExpectedConditions.ElementToBeClickable(_loginNextButton));
-            _loginNextButton.Click();
-
+        
+        public EnterPasswordPage EnterEmail(string email)
+        {
+            _loginField.WaitAndType(Driver, email);          
+            _loginNextButton.WaitAndClick(Driver);
+                        
             return new EnterPasswordPage(Driver);
+        }
+
+        public virtual EnterEmailPage Navigate(string url)
+        {
+            Driver.Navigate().GoToUrl(url);
+
+            return new EnterEmailPage(Driver);
         }
     }
 }

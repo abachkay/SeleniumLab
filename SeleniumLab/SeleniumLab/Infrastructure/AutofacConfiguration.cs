@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.PhantomJS;
 
 namespace SeleniumLab.Infrastructure
 {
@@ -9,14 +11,10 @@ namespace SeleniumLab.Infrastructure
         private static IContainer _container;
         public static IContainer GetContainer()
         {               
-            return _container ?? (_container = new AutofacConfiguration().Configure());
-        }
+            return _container ?? (_container = Configure());
+        }       
 
-        private AutofacConfiguration()
-        {            
-        }
-
-        private IContainer Configure()
+        private static IContainer Configure()
         {
             var builder = new ContainerBuilder();
 

@@ -1,33 +1,31 @@
-﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.PageObjects;
-using OpenQA.Selenium.Support.UI;
+﻿using NUnit.Framework;
+using OpenQA.Selenium;
+using SeleniumLab.Utilities;
 
 namespace SeleniumLab.PageObjects
 {
     public class ViewMailPage : CommonPage
     {
+        private readonly By _subjectText = By.CssSelector("h2.hP");
+
+        private readonly By _messageText = By.CssSelector(".gs div div div[dir='ltr']");
+
+        private readonly By _deleteButton = By.CssSelector("[gh='mtb'] :first-child :nth-child(2) :nth-child(3)");
+
         public ViewMailPage(IWebDriver driver) : base(driver)
         {            
         }
+        
+        public ViewMailPage VerifyMail(string subject, string message)
+        {
+            Assert.IsTrue(_subjectText.WaitAndRead(Driver) == subject && _messageText.WaitAndRead(Driver) == message);
 
-        [FindsBy(How = How.CssSelector, Using = "h2.hP")]
-        private readonly IWebElement _subjectText;
-
-        [FindsBy(How = How.CssSelector, Using = ".gs div div div[dir='ltr']")]
-        private readonly IWebElement _messageText;
-
-        [FindsBy(How = How.CssSelector, Using = "[gh='mtb'] :first-child :nth-child(2) :nth-child(3)")]
-        private readonly IWebElement _deleteButton;
-
-        public bool VerifyMail(string subject, string message)
-        {                       
-            return _subjectText.Text == subject && _messageText.Text == message;
+            return this;
         }
 
         public InboxPage DeleteMail()
         {
-            Wait.Until(ExpectedConditions.ElementToBeClickable(_deleteButton));            
-            _deleteButton.Click();
+            _deleteButton.WaitAndClick(Driver);
 
             return new InboxPage(Driver);
         }
