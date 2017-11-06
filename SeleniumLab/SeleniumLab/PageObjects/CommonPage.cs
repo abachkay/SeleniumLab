@@ -19,6 +19,8 @@ namespace SeleniumLab.PageObjects
 
         private readonly By _goToDraftButtonSelected = By.CssSelector("[class='aim ain'] div div div span a[title*='Drafts']");
 
+        private readonly By _refreshButton = By.CssSelector("[gh='mtb'] :first-child :first-child :nth-child(4)");
+
         public CommonPage(IWebDriver driver) : base(driver)
         {            
         }
@@ -50,6 +52,7 @@ namespace SeleniumLab.PageObjects
         {
             _goToDraftButton.WaitAndClick(Driver);
             _goToDraftButtonSelected.Wait(Driver);
+            _refreshButton.WaitAndClick(Driver);            
 
             return new DraftsPage(Driver);
         }

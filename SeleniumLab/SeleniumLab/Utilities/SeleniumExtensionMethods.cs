@@ -17,7 +17,7 @@ namespace SeleniumLab.Utilities
             driver.FindElement(by).Click();
         }
 
-        public static void WaitAndType(this By by, IWebDriver driver, string text)
+        public static void WaitAndType(this By by, IWebDriver driver, string text, int index = 0)
         {
             new WebDriverWait(driver, Timeout).Until(ExpectedConditions.ElementIsVisible(by));
 
