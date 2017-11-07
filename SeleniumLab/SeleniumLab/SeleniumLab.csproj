@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Infrastructure\AutofacConfiguration.cs" />
+    <Compile Include="Infrastructure\TestConfiguration.cs" />
     <Compile Include="PageObjects\CommonPage.cs" />
     <Compile Include="PageObjects\DraftsPage.cs" />
     <Compile Include="PageObjects\ViewMailPage.cs" />

@@ -3,7 +3,6 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using SeleniumLab.Infrastructure;
 using SeleniumLab.PageObjects;
-using System.Configuration;
 
 namespace SeleniumLab.Tests
 {
@@ -11,60 +10,61 @@ namespace SeleniumLab.Tests
     [Parallelizable(ParallelScope.All)]
     public class GmailTests
     {
+        private TestConfiguration TestConfiguration { get; } = new TestConfiguration();
+
         [Test]
         public void GmailTest1() => new EnterEmailPage(AutofacConfiguration.GetContainer().Resolve<IWebDriver>())
-                .Navigate(ConfigurationManager.AppSettings["Url"])
-                .EnterEmail(ConfigurationManager.AppSettings["Email"])
-                .EnterPassword(ConfigurationManager.AppSettings["Password"])
+                .Navigate(TestConfiguration.Url)
+                .EnterEmail(TestConfiguration.Email)
+                .EnterPassword(TestConfiguration.Password)
                 .CreateMessage()
-                .TypeMessage(ConfigurationManager.AppSettings["Email"], "Test", "Test message")
+                .TypeMessage(TestConfiguration.Email, TestConfiguration.TestSubject, TestConfiguration.TestMessage)
                 .SendMessage()
                 .GoToSentMailPage()
                 .OpenMail()
-                .VerifyMail("Test", "Test message")
+                .VerifyMail(TestConfiguration.TestSubject, TestConfiguration.TestMessage)
                 .DeleteMail();
 
         [Test]
         public void GmailTest2() =>
             new EnterEmailPage(AutofacConfiguration.GetContainer().Resolve<IWebDriver>())
-                .Navigate(ConfigurationManager.AppSettings["Url"])
-                .EnterEmail(ConfigurationManager.AppSettings["Email"])
-                .EnterPassword(ConfigurationManager.AppSettings["Password"])
+                .Navigate(TestConfiguration.Url)
+                .EnterEmail(TestConfiguration.Email)
+                .EnterPassword(TestConfiguration.Password)
                 .CreateMessage()
-                .TypeMessage(ConfigurationManager.AppSettings["Email"], "Test", "Test message")
+                .TypeMessage(TestConfiguration.Email, TestConfiguration.TestSubject, TestConfiguration.TestMessage)
                 .CloseMessage()                
                 .GoToDraftsPage()
-                .OpenMail(1)
+                .OpenMail()
                 .SendMessage()
                 .GoToSentMailPage()
                 .OpenMail()
-                .VerifyMail("Test", "Test message");
+                .VerifyMail(TestConfiguration.TestSubject, TestConfiguration.TestMessage);
 
         [Test]
         public void GmailTest3() =>
             new EnterEmailPage(AutofacConfiguration.GetContainer().Resolve<IWebDriver>())
-                .Navigate(ConfigurationManager.AppSettings["Url"])
-                .EnterEmail(ConfigurationManager.AppSettings["Email"])
-                .EnterPassword(ConfigurationManager.AppSettings["Password"])
+                .Navigate(TestConfiguration.Url)
+                .EnterEmail(TestConfiguration.Email)
+                .EnterPassword(TestConfiguration.Password)
                 .MarkCheckbox()
                 .MarkCheckbox(1)
                 .MarkCheckbox(2)
                 .MarkAsImportant();
             
-
         [Test]
         public void GmailTest4() => new EnterEmailPage(AutofacConfiguration.GetContainer().Resolve<IWebDriver>())
-                .Navigate(ConfigurationManager.AppSettings["Url"])
-                .EnterEmail(ConfigurationManager.AppSettings["Email"])
-                .EnterPassword(ConfigurationManager.AppSettings["Password"])
+                .Navigate(TestConfiguration.Url)
+                .EnterEmail(TestConfiguration.Email)
+                .EnterPassword(TestConfiguration.Password)
                 .CreateMessage()
-                .TypeMessage("aba", "Test", "Test message")
+                .TypeMessage(TestConfiguration.InvalidTestMessage, TestConfiguration.TestSubject, TestConfiguration.TestMessage)
                 .SendMessage()
                 .CloseError()
-                .FixMessage(ConfigurationManager.AppSettings["Email"])
+                .FixMessage(TestConfiguration.Email)
                 .SendMessage()
                 .GoToSentMailPage()
                 .OpenMail()
-                .VerifyMail("Test", "Test message");
+                .VerifyMail(TestConfiguration.TestSubject, TestConfiguration.TestMessage);
     }
 }

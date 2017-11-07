@@ -17,7 +17,7 @@ namespace SeleniumLab.PageObjects
             if (index != 0)
             {
                 FirstRow = By.CssSelector($"[gh='tl'] div div table tbody :nth-child({index + 1}) :nth-child(4)");
-            }
+            }            
             WaitAndClick(FirstRow);
 
             return new CreateMailPage(Driver);
