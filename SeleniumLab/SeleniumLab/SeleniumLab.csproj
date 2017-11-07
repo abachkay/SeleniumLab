@@ -75,7 +75,6 @@
     <Compile Include="PageObjects\PageObject.cs" />
     <Compile Include="Tests\GmailTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Utilities\SeleniumExtensionMethods.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

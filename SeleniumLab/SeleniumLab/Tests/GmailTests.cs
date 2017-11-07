@@ -48,7 +48,9 @@ namespace SeleniumLab.Tests
                 .EnterPassword(ConfigurationManager.AppSettings["Password"])
                 .MarkCheckbox()
                 .MarkCheckbox(1)
-                .MarkCheckbox(2);
+                .MarkCheckbox(2)
+                .MarkAsImportant();
+            
 
         [Test]
         public void GmailTest4() => new EnterEmailPage(AutofacConfiguration.GetContainer().Resolve<IWebDriver>())

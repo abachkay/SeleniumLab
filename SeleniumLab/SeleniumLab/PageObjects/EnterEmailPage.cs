@@ -1,14 +1,12 @@
 ﻿using OpenQA.Selenium;
-using SeleniumLab.Utilities;
-using System.Configuration;
 
 namespace SeleniumLab.PageObjects
 {
     public class EnterEmailPage : PageObject
     {
-        private readonly By _loginField = By.CssSelector("#identifierId");
+        private  By LoginField { get; } = By.CssSelector("#identifierId");
 
-        private readonly By _loginNextButton = By.CssSelector("#identifierNext");
+        private  By LoginNextButton { get; } = By.CssSelector("#identifierNext");
 
         public EnterEmailPage(IWebDriver driver) : base(driver)
         {            
@@ -16,8 +14,8 @@ namespace SeleniumLab.PageObjects
         
         public EnterPasswordPage EnterEmail(string email)
         {
-            _loginField.WaitAndType(Driver, email);          
-            _loginNextButton.WaitAndClick(Driver);
+            WaitAndType(LoginField, email);
+            WaitAndClick(LoginNextButton);
                         
             return new EnterPasswordPage(Driver);
         }

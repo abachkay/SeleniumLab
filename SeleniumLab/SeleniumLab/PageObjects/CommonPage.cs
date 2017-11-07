@@ -1,23 +1,22 @@
 ﻿using OpenQA.Selenium;
-using SeleniumLab.Utilities;
 
 namespace SeleniumLab.PageObjects
 {
     public class CommonPage : PageObject
     {
-        private readonly By _composeButton = By.CssSelector("[gh='cm']");
+        private By ComposeButton { get; } = By.CssSelector("[gh='cm']");
 
-        private readonly By _goToInboxButton = By.CssSelector("[title*='Inbox']");
+        private By GoToInboxButton { get; } = By.CssSelector("[title*='Inbox']");
 
-        private readonly By _goToSentMailButton = By.CssSelector("[title*='Sent Mail']");
+        private By GoToSentMailButton { get; } = By.CssSelector("[title*='Sent Mail']");
 
-        private readonly By _goToDraftButton = By.CssSelector("[title*='Drafts']");
+        private By GoToDraftButton { get; } = By.CssSelector("[title*='Drafts']");
 
-        private readonly By _goToInboxButtonSelected = By.CssSelector("[class='aim ain'] div div div span a[title*='Inbox']");
+        private By GoToInboxButtonSelected { get; } = By.CssSelector("[class='aim ain'] div div div span a[title*='Inbox']");
 
-        private readonly By _goToSentMailButtonSelected = By.CssSelector("[class='aim ain'] div div div span a[title*='Sent Mail']");
+        private By GoToSentMailButtonSelected { get; } = By.CssSelector("[class='aim ain'] div div div span a[title*='Sent Mail']");
 
-        private readonly By _goToDraftButtonSelected = By.CssSelector("[class='aim ain'] div div div span a[title*='Drafts']");
+        private By GoToDraftButtonSelected { get; } = By.CssSelector("[class='aim ain'] div div div span a[title*='Drafts']");
 
         public CommonPage(IWebDriver driver) : base(driver)
         {            
@@ -25,31 +24,31 @@ namespace SeleniumLab.PageObjects
 
         public CreateMailPage CreateMessage()
         {
-            _composeButton.WaitAndClick(Driver);
+            WaitAndClick(ComposeButton);
 
             return new CreateMailPage(Driver);
         }
 
         public InboxPage GoToInboxPage()
         {
-            _goToInboxButton.WaitAndClick(Driver);
-            _goToInboxButtonSelected.Wait(Driver);
+            WaitAndClick(GoToInboxButton);
+            WaitUntilVisible(GoToInboxButtonSelected);
 
             return new InboxPage(Driver);
         }
 
         public SentMailPage GoToSentMailPage()
         {
-            _goToSentMailButton.WaitAndClick(Driver);
-            _goToSentMailButtonSelected.Wait(Driver);
+            WaitAndClick(GoToSentMailButton);
+            WaitUntilVisible(GoToSentMailButtonSelected);
 
             return new SentMailPage(Driver);
         }
 
         public DraftsPage GoToDraftsPage()
         {
-            _goToDraftButton.WaitAndClick(Driver);
-            _goToDraftButtonSelected.Wait(Driver);
+            WaitAndClick(GoToDraftButton);
+            WaitUntilVisible(GoToDraftButtonSelected);
 
             return new DraftsPage(Driver);
         }
