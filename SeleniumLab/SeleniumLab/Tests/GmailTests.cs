@@ -20,7 +20,7 @@ namespace SeleniumLab.Tests
                 .TypeMessage(ConfigurationManager.AppSettings["Email"], "Test", "Test message")
                 .SendMessage()
                 .GoToSentMailPage()
-                .OpenFirstMail()
+                .OpenMail()
                 .VerifyMail("Test", "Test message")
                 .DeleteMail();
 
@@ -32,12 +32,12 @@ namespace SeleniumLab.Tests
                 .EnterPassword(ConfigurationManager.AppSettings["Password"])
                 .CreateMessage()
                 .TypeMessage(ConfigurationManager.AppSettings["Email"], "Test", "Test message")
-                .CloseMessage()
+                .CloseMessage()                
                 .GoToDraftsPage()
-                .OpenMail()
+                .OpenMail(1)
                 .SendMessage()
                 .GoToSentMailPage()
-                .OpenFirstMail()
+                .OpenMail()
                 .VerifyMail("Test", "Test message");
 
         [Test]
@@ -45,13 +45,10 @@ namespace SeleniumLab.Tests
             new EnterEmailPage(AutofacConfiguration.GetContainer().Resolve<IWebDriver>())
                 .Navigate(ConfigurationManager.AppSettings["Url"])
                 .EnterEmail(ConfigurationManager.AppSettings["Email"])
-                .EnterPassword(ConfigurationManager.AppSettings["Password"])                
-                .GoToSentMailPage()
-                .OpenMail()
-                .SendMessage()
-                .GoToSentMailPage()
-                .OpenFirstMail()
-                .VerifyMail("Test", "Test message");
+                .EnterPassword(ConfigurationManager.AppSettings["Password"])
+                .MarkCheckbox()
+                .MarkCheckbox(1)
+                .MarkCheckbox(2);
 
         [Test]
         public void GmailTest4() => new EnterEmailPage(AutofacConfiguration.GetContainer().Resolve<IWebDriver>())
@@ -65,7 +62,7 @@ namespace SeleniumLab.Tests
                 .FixMessage(ConfigurationManager.AppSettings["Email"])
                 .SendMessage()
                 .GoToSentMailPage()
-                .OpenFirstMail()
+                .OpenMail()
                 .VerifyMail("Test", "Test message");
     }
 }
