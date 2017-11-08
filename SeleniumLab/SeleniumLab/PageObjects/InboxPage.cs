@@ -33,12 +33,10 @@ namespace SeleniumLab.PageObjects
 
         public InboxPage MarkAsImportant()
         {
-            WaitAndClick(MenuButton);
-            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
+            WaitAndClick(MenuButton);            
             try
             {
-                
-                wait.Until(ExpectedConditions.ElementToBeClickable(MarkAsNotImportantButton));
+                new WebDriverWait(Driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementToBeClickable(MarkAsNotImportantButton));
                 Click(MarkAsNotImportantButton);
                 WaitAndClick(MenuButton);
                 WaitAndClick(MarkAsImportantButton);
