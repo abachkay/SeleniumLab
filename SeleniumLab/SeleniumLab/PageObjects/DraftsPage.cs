@@ -1,4 +1,5 @@
-﻿using OpenQA.Selenium;
+﻿using System.Threading;
+using OpenQA.Selenium;
 
 namespace SeleniumLab.PageObjects
 {
@@ -12,6 +13,8 @@ namespace SeleniumLab.PageObjects
         
         public CreateMailPage OpenMail(int index = 0)
         {
+            WaitUntilVisibleMany(Rows);
+            Thread.Sleep(1000);
             WaitAndClick(Rows, index);
 
             return new CreateMailPage(Driver);

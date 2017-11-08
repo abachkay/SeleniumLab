@@ -36,7 +36,7 @@ namespace SeleniumLab.Tests
                 .TypeMessage(TestConfiguration.Email, TestConfiguration.TestSubject, TestConfiguration.TestMessage)
                 .CloseMessage()
                 .GoToDraftsPage()
-                .OpenMail(1)
+                .OpenMail()
                 .SendMessage()
                 .GoToSentMailPage()
                 .OpenMail()
