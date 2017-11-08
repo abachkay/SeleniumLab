@@ -51,7 +51,11 @@ namespace SeleniumLab.Tests
                 .EnterPassword(TestConfiguration.Password)
                 .GoToInboxPage()
                 .MarkThreeCheckboxes()
-                .MarkAsImportant();
+                .MarkAsImportant()
+                .GoToImportantPage()
+                .CheckImportant()
+                .DeleteImportant()
+                .Close();
                 
 
         [Test]
