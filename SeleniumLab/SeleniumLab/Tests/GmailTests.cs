@@ -50,14 +50,17 @@ namespace SeleniumLab.Tests
                 .EnterEmail(TestConfiguration.Email)
                 .EnterPassword(TestConfiguration.Password)
                 .GoToInboxPage()
-                .MarkThreeCheckboxes()
+                .MarkCheckbox()
+                .MarkCheckbox(1)
+                .MarkCheckbox(2)
                 .MarkAsImportant()
                 .GoToImportantPage()
-                .CheckImportant()
+                .CheckCount()
                 .DeleteImportant()
+                .GoToTrashPage()
+                .CheckCount()
                 .Close();
-                
-
+        
         [Test]
         public void GmailTest4() =>
             new EnterEmailPage(AutofacConfiguration.GetContainer().Resolve<IWebDriver>())

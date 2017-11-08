@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -19,24 +18,28 @@ namespace SeleniumLab.PageObjects
         {       
         }
 
-        public InboxPage MarkThreeCheckboxes()
+        public InboxPage MarkCheckbox(int index = 0)
         {
             var checkBoxes = Rows.FindElements(Driver);
-            Wait.Until(ExpectedConditions.ElementToBeClickable(checkBoxes[2]));
-
-            checkBoxes[0].Click();           
-            checkBoxes[1].Click();           
-            checkBoxes[2].Click();
-
-            return new InboxPage(Driver);
+            Wait.Until(ExpectedConditions.VisibilityOfAllElementsLocatedBy(Rows));
+            try
+            {
+                checkBoxes[index].Click();
+            }
+            catch
+            {
+                checkBoxes = Rows.FindElements(Driver);                
+                checkBoxes[index].Click();
+            }
+           
+            return this;
         }
 
         public InboxPage MarkAsImportant()
         {
             WaitAndClick(MenuButton);            
             try
-            {
-                new WebDriverWait(Driver, TimeSpan.FromSeconds(5)).Until(ExpectedConditions.ElementToBeClickable(MarkAsNotImportantButton));
+            {                
                 Click(MarkAsNotImportantButton);
                 WaitAndClick(MenuButton);
                 WaitAndClick(MarkAsImportantButton);
@@ -46,7 +49,7 @@ namespace SeleniumLab.PageObjects
                 WaitAndClick(MarkAsImportantButton);
             }           
 
-            return new InboxPage(Driver);
-        }
+            return this;
+        }        
     }
 }
