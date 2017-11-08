@@ -12,11 +12,15 @@ namespace SeleniumLab.PageObjects
 
         private By GoToDraftButton { get; } = By.CssSelector("[title*='Drafts']");
 
+        private By GoToImportantButton { get; } = By.CssSelector("[title*='Important']");
+
         private By GoToInboxButtonSelected { get; } = By.CssSelector("[class='aim ain'] div div div span a[title*='Inbox']");
 
         private By GoToSentMailButtonSelected { get; } = By.CssSelector("[class='aim ain'] div div div span a[title*='Sent Mail']");
 
         private By GoToDraftButtonSelected { get; } = By.CssSelector("[class='aim ain'] div div div span a[title*='Drafts']");
+
+        private By GoToImportantButtonSelected { get; } = By.CssSelector("[class='aim ain'] div div div span a[title*='Important']");
 
         public CommonPage(IWebDriver driver) : base(driver)
         {            
@@ -51,6 +55,14 @@ namespace SeleniumLab.PageObjects
             WaitUntilVisible(GoToDraftButtonSelected);
 
             return new DraftsPage(Driver);
+        }
+
+        public ImportantPage GoToImportantPage()
+        {
+            WaitAndClick(GoToImportantButton);
+            WaitUntilVisible(GoToImportantButtonSelected);
+
+            return new ImportantPage(Driver);
         }
     }
 }

@@ -13,7 +13,7 @@ namespace SeleniumLab.PageObjects
         }
         
         public EnterPasswordPage EnterEmail(string email)
-        {
+        {            
             WaitAndType(LoginField, email);
             WaitAndClick(LoginNextButton);
                         

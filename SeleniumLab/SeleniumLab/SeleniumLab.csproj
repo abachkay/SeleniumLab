@@ -67,6 +67,7 @@
     <Compile Include="Infrastructure\TestConfiguration.cs" />
     <Compile Include="PageObjects\CommonPage.cs" />
     <Compile Include="PageObjects\DraftsPage.cs" />
+    <Compile Include="PageObjects\ImportantPage.cs" />
     <Compile Include="PageObjects\ViewMailPage.cs" />
     <Compile Include="PageObjects\SentMailPage.cs" />
     <Compile Include="PageObjects\CreateMailPage.cs" />

@@ -2,11 +2,11 @@
 
 namespace SeleniumLab.PageObjects
 {
-    public class SentMailPage : CommonPage
+    public class ImportantPage : CommonPage
     {
         private By Rows { get; } = By.CssSelector("[gh='tl'] div div table tbody tr :nth-child(5)");
 
-        public SentMailPage(IWebDriver driver) : base(driver)
+        public ImportantPage(IWebDriver driver) : base(driver)
         {           
         }       
 

@@ -2,11 +2,10 @@
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.PhantomJS;
 
 namespace SeleniumLab.Infrastructure
 {
-    public class AutofacConfiguration
+    public static class AutofacConfiguration
     {
         private static IContainer _container;
         public static IContainer GetContainer()

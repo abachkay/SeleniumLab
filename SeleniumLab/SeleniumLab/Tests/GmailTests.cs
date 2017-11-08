@@ -6,14 +6,14 @@ using SeleniumLab.PageObjects;
 
 namespace SeleniumLab.Tests
 {
-    [TestFixture]
-    [Parallelizable(ParallelScope.All)]
+    [TestFixture]    
     public class GmailTests
     {
         private TestConfiguration TestConfiguration { get; } = new TestConfiguration();
 
         [Test]
-        public void GmailTest1() => new EnterEmailPage(AutofacConfiguration.GetContainer().Resolve<IWebDriver>())
+        public void GmailTest1() =>
+            new EnterEmailPage(AutofacConfiguration.GetContainer().Resolve<IWebDriver>())
                 .Navigate(TestConfiguration.Url)
                 .EnterEmail(TestConfiguration.Email)
                 .EnterPassword(TestConfiguration.Password)
@@ -23,7 +23,8 @@ namespace SeleniumLab.Tests
                 .GoToSentMailPage()
                 .OpenMail()
                 .VerifyMail(TestConfiguration.TestSubject, TestConfiguration.TestMessage)
-                .DeleteMail();
+                .DeleteMail()
+                .Close();
 
         [Test]
         public void GmailTest2() =>
@@ -33,13 +34,14 @@ namespace SeleniumLab.Tests
                 .EnterPassword(TestConfiguration.Password)
                 .CreateMessage()
                 .TypeMessage(TestConfiguration.Email, TestConfiguration.TestSubject, TestConfiguration.TestMessage)
-                .CloseMessage()                
+                .CloseMessage()
                 .GoToDraftsPage()
-                .OpenMail()
+                .OpenMail(1)
                 .SendMessage()
                 .GoToSentMailPage()
                 .OpenMail()
-                .VerifyMail(TestConfiguration.TestSubject, TestConfiguration.TestMessage);
+                .VerifyMail(TestConfiguration.TestSubject, TestConfiguration.TestMessage)
+                .Close();
 
         [Test]
         public void GmailTest3() =>
@@ -47,24 +49,27 @@ namespace SeleniumLab.Tests
                 .Navigate(TestConfiguration.Url)
                 .EnterEmail(TestConfiguration.Email)
                 .EnterPassword(TestConfiguration.Password)
-                .MarkCheckbox()
-                .MarkCheckbox(1)
-                .MarkCheckbox(2)
+                .GoToInboxPage()
+                .MarkThreeCheckboxes()
                 .MarkAsImportant();
-            
+                
+
         [Test]
-        public void GmailTest4() => new EnterEmailPage(AutofacConfiguration.GetContainer().Resolve<IWebDriver>())
+        public void GmailTest4() =>
+            new EnterEmailPage(AutofacConfiguration.GetContainer().Resolve<IWebDriver>())
                 .Navigate(TestConfiguration.Url)
                 .EnterEmail(TestConfiguration.Email)
                 .EnterPassword(TestConfiguration.Password)
                 .CreateMessage()
-                .TypeMessage(TestConfiguration.InvalidTestMessage, TestConfiguration.TestSubject, TestConfiguration.TestMessage)
+                .TypeMessage(TestConfiguration.InvalidTestMessage, TestConfiguration.TestSubject,
+                    TestConfiguration.TestMessage)
                 .SendMessage()
                 .CloseError()
                 .FixMessage(TestConfiguration.Email)
                 .SendMessage()
                 .GoToSentMailPage()
                 .OpenMail()
-                .VerifyMail(TestConfiguration.TestSubject, TestConfiguration.TestMessage);
+                .VerifyMail(TestConfiguration.TestSubject, TestConfiguration.TestMessage)
+                .Close();
     }
 }
