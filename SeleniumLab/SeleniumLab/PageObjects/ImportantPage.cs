@@ -16,7 +16,7 @@ namespace SeleniumLab.PageObjects
         public ImportantPage CheckImportant()
         {
             var elements = Rows.FindElements(Driver);
-            Assert.IsTrue(elements.Count == 3);
+            Assert.IsTrue(elements.Count >= 3);
             
             return new ImportantPage(Driver);
         }
@@ -26,6 +26,6 @@ namespace SeleniumLab.PageObjects
             WaitAndClick(DeleteButton);
 
             return new ImportantPage(Driver);
-        }
+        }        
     }
 }

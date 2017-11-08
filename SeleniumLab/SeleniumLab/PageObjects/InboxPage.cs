@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 
@@ -11,6 +12,8 @@ namespace SeleniumLab.PageObjects
         private  By MenuButton { get; } = By.CssSelector("[gh='mtb'] :first-child :first-child :nth-child(6)");
 
         private  By MarkAsImportantButton { get; } = By.CssSelector("[class='J-M aX0 aYO jQjAxd'] [class='SK AX'] :nth-child(4) :first-child");
+
+        private By MarkAsNotImportantButton { get; } = By.CssSelector("[class='J-M aX0 aYO jQjAxd'] [class='SK AX'] :nth-child(5) :first-child");
 
         public InboxPage(IWebDriver driver) : base(driver)
         {       
@@ -30,9 +33,20 @@ namespace SeleniumLab.PageObjects
 
         public InboxPage MarkAsImportant()
         {
-            WaitAndClick(MenuButton);       
-            
-            WaitAndClick(MarkAsImportantButton);
+            WaitAndClick(MenuButton);
+            var wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(5));
+            try
+            {
+                
+                wait.Until(ExpectedConditions.ElementToBeClickable(MarkAsNotImportantButton));
+                Click(MarkAsNotImportantButton);
+                WaitAndClick(MenuButton);
+                WaitAndClick(MarkAsImportantButton);
+            }
+            catch
+            {
+                WaitAndClick(MarkAsImportantButton);
+            }           
 
             return new InboxPage(Driver);
         }
