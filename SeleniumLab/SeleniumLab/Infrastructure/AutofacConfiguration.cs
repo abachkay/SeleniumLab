@@ -17,7 +17,7 @@ namespace SeleniumLab.Infrastructure
         {
             var builder = new ContainerBuilder();
 
-            builder.RegisterType<ChromeDriver>().As<IWebDriver>().InstancePerDependency();
+            builder.RegisterType<FirefoxDriver>().As<IWebDriver>().InstancePerDependency();
 
             return  builder.Build();
         }

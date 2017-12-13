@@ -22,9 +22,7 @@ namespace SeleniumLab.PageObjects
 
         private By GoToDraftButtonSelected { get; } = By.CssSelector("[class='aim ain'] div div div span a[title*='Drafts']");
 
-        private By GoToImportantButtonSelected { get; } = By.CssSelector("[class='aim ain'] div div div span a[title*='Important']");
-
-        private By GoToTrashButtonSelected { get; } = By.CssSelector("[class='aim ain'] div div div span a[title*='Trash']");
+        private By GoToImportantButtonSelected { get; } = By.CssSelector("[class='aim ain'] div div div span a[title*='Important']");        
 
         public CommonPage(IWebDriver driver) : base(driver)
         {            
